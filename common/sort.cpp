@@ -61,6 +61,39 @@ int select_sort(int *arr, int length)
     }
     return 0;
 }
+// 插入排序
+void insert_sort(int *arr, int length)
+{
+    int i,j;
+    for(i=1; i<length; ++i)
+    {
+        int p=arr[i];
+        j=i;
+        while(j>0&&arr[j-1]>p)
+        {
+            arr[j]=arr[j-1];
+            j--;
+        }
+        arr[j]=p;
+        // for(j=i; j>0; j--)
+        // {
+        //     if(arr[j-1]>p)
+        //     {
+        //         arr[j]=arr[j-1];
+        //     }
+        //     else
+        //     {
+        //         break;
+        //     }
+            
+        // }
+        // arr[j]=p;
+    }
+}
+void quick_sort(int *arr, int length)
+{
+    ;
+}
 void print(int *arr, int length)
 {
     for(int i=0; i<length; ++i)
@@ -71,15 +104,16 @@ void print(int *arr, int length)
 }
 int main()
 {
-    int arr[] = { 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
-    // int arr[]={1,2,3,4,5,6};
+    // int arr[] = { 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
+    int arr[]={1,2,3,4,5,6};
     int length=(int)sizeof(arr)/sizeof(*arr);
     print(arr, length);
     // 冒泡排序
     // bubble_sort(arr, length);
     //  选择排序
-    select_sort(arr, length);
-
+    // select_sort(arr, length);
+    // 插入排序
+    insert_sort(arr, length);
     
     print(arr, length);
 }
