@@ -90,9 +90,77 @@ void insert_sort(int *arr, int length)
         // arr[j]=p;
     }
 }
-void quick_sort(int *arr, int length)
+int parition(int *arr, int low, int high)
 {
-    ;
+    int p= arr[low];
+    while(low<high)
+    {
+        while(low<high && arr[high]>p)
+        {
+            high--;
+        }
+        arr[low]=arr[high];
+        while(low<high && arr[low]<p)
+        {
+            low++;
+        }
+        arr[high]=arr[low];
+    }
+    arr[high]=p;
+    return low;
+}
+void quick_sort(int *arr, int low, int high)
+{
+    if(low < high)
+    {
+        int pivot=parition(arr, low, high);
+        quick_sort(arr, low, pivot-1);
+        quick_sort(arr, pivot+1, high);
+    }
+    
+}
+// i是二叉树倒数第一个非叶子节点
+void heapfiy(int *arr, int n, int i)
+{
+    // 左孩子
+    int s1=2*i+1;
+    // 右孩子
+    int s2=2*i+2;
+    // 初始化最大结点
+    int largest=i;
+    if(arr[s1]>arr[largest] && s1<=n)
+    {
+        largest=s1;
+    }
+    if(arr[s2]>arr[largest]&& s2<=n)
+    {
+        largest=s2;
+    }
+    if(largest!=i)
+    {
+        swap(arr+i, arr+largest);
+        heapfiy(arr, n, largest);
+    }
+
+}
+// 大堆排序，为升序
+void heapsort(int *arr, int length)
+{
+    int n=length-1;
+    // 建堆
+    for(int i = (n-1)/2; i>=0; --i)
+    {
+        heapfiy(arr, n, i);
+    }
+    for(int i=n; i>0; --i)
+    {
+        // 交换
+        swap(arr+i, arr);
+        // 重建堆，i-1是因为最后一个元素已经被剔除
+        heapfiy(arr, i-1, 0);
+    }
+    
+    
 }
 void print(int *arr, int length)
 {
@@ -104,8 +172,8 @@ void print(int *arr, int length)
 }
 int main()
 {
-    // int arr[] = { 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
-    int arr[]={1,2,3,4,5,6};
+    int arr[] = { 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
+    // int arr[]={1,2,3,4,5,6};
     int length=(int)sizeof(arr)/sizeof(*arr);
     print(arr, length);
     // 冒泡排序
@@ -113,7 +181,11 @@ int main()
     //  选择排序
     // select_sort(arr, length);
     // 插入排序
-    insert_sort(arr, length);
+    // insert_sort(arr, length);
+    // 快速排序
+    // quick_sort(arr, 0, length-1);
+    // 堆排序
+    heapsort(arr, length);
     
     print(arr, length);
 }
