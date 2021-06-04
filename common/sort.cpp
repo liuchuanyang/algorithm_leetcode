@@ -1,5 +1,7 @@
 #include <stdio.h>
-
+#include <vector>
+#include <iostream>
+using namespace std;
 void swap(int *p, int *q)
 {
     int tmp;
@@ -162,20 +164,76 @@ void heapsort(int *arr, int length)
     
     
 }
-void print(int *arr, int length)
+// void print(int *arr, int length)
+// {
+//     for(int i=0; i<length; ++i)
+//     {
+//         printf("%d\t", arr[i]);
+//     }
+//     printf("\n");
+// }
+void print(const vector<int> &arr)
 {
-    for(int i=0; i<length; ++i)
+    for(int i=0; i< arr.size(); ++i)
     {
-        printf("%d\t", arr[i]);
+        cout<<arr[i]<<" ";
     }
-    printf("\n");
+    cout<<endl;
+}
+void merge_two_vec(vector<int>& sub1, vector<int>& sub2, vector<int> &vec)
+{
+    int i=0;
+    int j=0;
+    while(i<sub1.size()&&j<sub2.size())
+    {
+        if(sub1[i]<=sub2[j])
+        {
+            vec.push_back(sub1[i]);
+            ++i;
+        }
+        else{
+            vec.push_back(sub2[j]);
+            ++j;
+        }
+    }
+    for(;i<sub1.size();++i)
+    {
+        vec.push_back(sub1[i]);
+    }
+    for(;j<sub2.size(); ++j)
+    {
+        vec.push_back(sub2[j]);
+    }
+}
+void merge_sort(vector<int> &vec)
+{
+    int size=vec.size();
+    if(size<=1)
+    {
+        return;
+    }
+    int mid=size/2;
+    vector<int> subset1;
+    vector<int> subset2;
+    for(int i=0; i<mid; ++i)
+    {
+        subset1.push_back(vec[i]);
+    }
+    for(int i=mid; i<size; ++i)
+    {
+        subset2.push_back(vec[i]);
+    }
+    merge_sort(subset1);
+    merge_sort(subset2);
+    vec.clear();
+    merge_two_vec(subset1, subset2, vec);
 }
 int main()
 {
-    int arr[] = { 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
+    // int arr[] = { 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
     // int arr[]={1,2,3,4,5,6};
-    int length=(int)sizeof(arr)/sizeof(*arr);
-    print(arr, length);
+    // int length=(int)sizeof(arr)/sizeof(*arr);
+    // print(arr, length);
     // 冒泡排序
     // bubble_sort(arr, length);
     //  选择排序
@@ -185,7 +243,8 @@ int main()
     // 快速排序
     // quick_sort(arr, 0, length-1);
     // 堆排序
-    heapsort(arr, length);
-    
-    print(arr, length);
+    // heapsort(arr, length);
+    vector<int> arr={ 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70 };
+    merge_sort(arr);
+    print(arr);
 }
